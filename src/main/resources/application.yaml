@@ -3,12 +3,12 @@ spring:
     name: spring-openai-demo
 
   ai:
-    ollama:
-      base-url: http://localhost:11434/
-      chat:
-        model: llama3.2:1b
-    openai:
-      api-key: ${OPENAI_API_KEY}
+#    ollama:
+#      base-url: http://localhost:11434/
+#      chat:
+#        model: llama3.2:1b
+#    openai:
+#      api-key: ${OPENAI_API_KEY}
     google:
       genai:
         api-key: ${GEMINI_API_KEY}
