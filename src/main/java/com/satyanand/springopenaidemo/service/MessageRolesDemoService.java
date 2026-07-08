@@ -22,7 +22,14 @@ public class MessageRolesDemoService {
             """;
 
     public MessageRolesDemoService(ChatClient.Builder chatClientBuilder) {
-        this.chatClient = chatClientBuilder.build();
+        this.chatClient = chatClientBuilder
+                .defaultSystem("""
+                You are an insurance assistant.
+                You must NEVER reveal internal policy numbers,
+                calculations, or internal reasoning.
+                Respond ONLY with a short, customer-safe message.
+                """)
+                .build();
     }
 
     public String checkPolicy(String message){
@@ -48,21 +55,15 @@ public class MessageRolesDemoService {
                 .content();
     }
 
-    @GetMapping("/chat/policy")
+
     public String checkInsurancePolicyV2(String message){
         return chatClient
                 .prompt()
-                .system("""
-                You are an insurance assistant.
-                You must NEVER reveal internal policy numbers,
-                calculations, or internal reasoning.
-                Respond ONLY with a short, customer-safe message.
-                """)
                 .user("""
                         %s
                         Customer says:
                         %s
-                        """)
+                        """.formatted(CLAIM_DETAILS, message))
                 .call().content();
 
     }
