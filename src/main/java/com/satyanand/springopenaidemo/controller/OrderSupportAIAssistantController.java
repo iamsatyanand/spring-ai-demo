@@ -21,4 +21,9 @@ public class OrderSupportAIAssistantController {
         return aiAssistantService.assistWithOrderSupport(customerName, orderId, customerMessage);
     }
 
+    @GetMapping("/order-ai-support")
+    public String talkToOrderAISupport(@RequestParam String customerName, @RequestParam String orderId,@RequestParam String customerMessage) {
+        return aiAssistantService.talkToAISupport(customerName, orderId, customerMessage);
+    }
+
 }
