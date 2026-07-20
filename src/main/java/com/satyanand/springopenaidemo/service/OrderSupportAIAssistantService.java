@@ -1,6 +1,7 @@
 package com.satyanand.springopenaidemo.service;
 
 import com.satyanand.springopenaidemo.advisors.AuditTokenUsageAdvisor;
+import com.satyanand.springopenaidemo.advisors.DailyTokenLimitAdvisor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SafeGuardAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
@@ -24,8 +25,10 @@ public class OrderSupportAIAssistantService {
 
     private final ChatClient chatClient;
 
-    public OrderSupportAIAssistantService(ChatClient.Builder chatClientBuilder) {
-        this.chatClient = chatClientBuilder.build();
+    public OrderSupportAIAssistantService(ChatClient.Builder chatClientBuilder, DailyTokenUsageService tokenUsageService) {
+        this.chatClient = chatClientBuilder
+                .defaultAdvisors(new DailyTokenLimitAdvisor(tokenUsageService))
+                .build();
     }
 
     public String assistWithOrderSupport(String customerName, String orderId, String customerMessage){
