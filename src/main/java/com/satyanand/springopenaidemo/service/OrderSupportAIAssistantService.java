@@ -1,6 +1,8 @@
 package com.satyanand.springopenaidemo.service;
 
+import com.satyanand.springopenaidemo.advisors.AuditTokenUsageAdvisor;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.SafeGuardAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -41,7 +43,12 @@ public class OrderSupportAIAssistantService {
     public String talkToAISupport(String customerName, String orderId, String customerMessage) {
         return chatClient
                 .prompt()
-                .advisors(List.of(new SimpleLoggerAdvisor()))
+                .advisors(List.of(
+                        new SimpleLoggerAdvisor(),
+                        new SafeGuardAdvisor(List.of("password", "otp", "cvv"),
+                                "For security reason, we never ask such sensitive information", 1),
+                        new AuditTokenUsageAdvisor()
+                ))
                 .system(orderSystemPolicyPrompt)
                 .user(promptUserSpec -> promptUserSpec.text(orderUserPrompt)
                         .param("customerName", customerName)
