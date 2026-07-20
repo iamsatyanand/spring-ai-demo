@@ -1,9 +1,12 @@
 package com.satyanand.springopenaidemo.service;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class OrderSupportAIAssistantService {
@@ -38,6 +41,7 @@ public class OrderSupportAIAssistantService {
     public String talkToAISupport(String customerName, String orderId, String customerMessage) {
         return chatClient
                 .prompt()
+                .advisors(List.of(new SimpleLoggerAdvisor()))
                 .system(orderSystemPolicyPrompt)
                 .user(promptUserSpec -> promptUserSpec.text(orderUserPrompt)
                         .param("customerName", customerName)
