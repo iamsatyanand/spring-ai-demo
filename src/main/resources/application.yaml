@@ -12,6 +12,16 @@ spring:
     google:
       genai:
         api-key: ${GEMINI_API_KEY}
+#        chat:
+#          model: gemini-2.5-flash
+#          temperature: 0.3
+#          max-output-tokens: 100
+#          frequency-penalty: 0.7
+#          presence-penalty: 0.7
+#          stop-sequences:
+#            - }
+#          top-k: 50
+#          top-p: 0.5
 
 logging:
   level:
