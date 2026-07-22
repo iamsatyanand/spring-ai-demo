@@ -1,5 +1,6 @@
 package com.satyanand.springopenaidemo.controller;
 
+import com.satyanand.springopenaidemo.dto.TripPlan;
 import com.satyanand.springopenaidemo.service.TripPlannerService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ public class TripPlannerController {
     }
 
     @GetMapping("/plan-trip")
-    public String getTripPlans(@RequestParam String message){
+    public TripPlan getTripPlans(@RequestParam String message){
         return tripPlannerService.getTripPlans(message);
     }
 
